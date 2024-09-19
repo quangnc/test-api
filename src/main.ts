@@ -8,6 +8,5 @@ async function bootstrap() {
 }
 bootstrap().then((urls) => {
   console.log(`ApiServer is running on ${urls[0]}`);
-  console.log(`AdminServer is running on ${urls[1]}`);
-  console.log(`FilesServer is running on ${urls[2]}`);
+  console.log(`FilesServer is running on ${urls[1]}`);
 });

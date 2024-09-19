@@ -1,4 +1,4 @@
-export const FORGOT_PASSWORD = '[APK] Forgot password';
-export const USER_VERIFY_EMAIL = '[APK] USER_VERIFY_EMAIL';
-export const USER_CHANGED_EMAIL = '[APK] USER_CHANGED_EMAIL';
-export const ADMIN_CHANGED_EMAIL = '[APK] ADMIN_CHANGED_EMAIL';
+export const FORGOT_PASSWORD = 'Forgot password';
+export const USER_VERIFY_EMAIL = 'USER_VERIFY_EMAIL';
+export const USER_CHANGED_EMAIL = 'USER_CHANGED_EMAIL';
+export const ADMIN_CHANGED_EMAIL = 'ADMIN_CHANGED_EMAIL';

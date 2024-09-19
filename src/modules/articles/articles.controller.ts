@@ -1,13 +1,15 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ListArticleParam } from 'modules/articles/requests/params';
 import { ArticlesService } from 'modules/articles/articles.service';
-import { DetailArticleQuery, ListArticlesQuery } from 'modules/articles/requests/queries';
+import {
+  DetailArticleQuery,
+  ListArticlesQuery,
+} from 'modules/articles/requests/queries';
 import { strToArray } from 'src/utils/array';
 import { ApiResponse } from 'src/common/api.response';
 import { UserLanguage } from 'src/common/decorators/user-language.decorator';
 import { IsPublic } from 'src/common/decorators';
 import { ArticleMapper } from 'src/mappers/article.mapper';
-import { ApkMapper } from 'src/mappers/apk.mapper';
 
 @Controller({
   path: 'articles',
@@ -18,8 +20,11 @@ export class ArticlesController {
   constructor(private articleService: ArticlesService) {}
 
   @Get('detail')
-  async getDetail(@Query() query: DetailArticleQuery, @UserLanguage() language) {
-    const { article, apks } = await this.articleService.getDetail(
+  async getDetail(
+    @Query() query: DetailArticleQuery,
+    @UserLanguage() language,
+  ) {
+    const { article } = await this.articleService.getDetail(
       +query.id || query.slug,
       +query.offset || 0,
       +query.limit || 10,
@@ -27,7 +32,6 @@ export class ArticlesController {
     );
     return ApiResponse.success({
       article: ArticleMapper.mapDetail(article),
-      apks: ApkMapper.mapList(apks),
     });
   }
 

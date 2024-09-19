@@ -1,6 +1,5 @@
 import { AutoIdEntity } from 'src/common/base-entity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { Apk } from 'modules/apks/entities/apk.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('sliders')
 export class Slider extends AutoIdEntity {
@@ -11,9 +10,6 @@ export class Slider extends AutoIdEntity {
   title: string;
 
   @Column({ nullable: true })
-  apkId: number;
-
-  @Column({ nullable: true })
   image: string;
 
   @Column({ default: '' })
@@ -21,8 +17,4 @@ export class Slider extends AutoIdEntity {
 
   @Column({ default: 1 })
   priority: number;
-
-  @OneToOne(() => Apk)
-  @JoinColumn()
-  apk: Apk;
 }

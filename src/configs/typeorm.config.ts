@@ -1,18 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import {
-  DATABASE_URL,
-  IS_PRODUCTION,
-  REDIS_API_URL,
-  REDIS_ENABLE,
-} from '@configs/index';
-
-const redisConfig: any = {
-  type: 'redis',
-  options: {
-    url: REDIS_API_URL,
-  },
-};
+import { DATABASE_URL, IS_PRODUCTION } from '@configs/index';
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',

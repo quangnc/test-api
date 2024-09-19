@@ -8,16 +8,9 @@ dotenv.config();
 export const DATABASE_URL = process.env.POSTGRES_URL;
 
 /**
- * Redis URL
- */
-export const REDIS_ENABLE = process.env.REDIS_ENABLE == 'true';
-export const REDIS_API_URL = process.env.REDIS_API_URL;
-export const REDIS_ADMIN_URL = process.env.REDIS_ADMIN_URL;
-
-/**
  * Api server port and ip
  */
-export const API_SERVER_PORT = process.env.API_PORT || 443;
+export const API_SERVER_PORT = process.env.API_PORT || 9000;
 export const API_SERVER_IP = process.env.API_IP || 'localhost';
 
 /**
@@ -54,11 +47,6 @@ export const API_ALLOW_ORIGINS = process.env.API_ALLOW_ORIGINS || '*';
 /**
  * File url
  */
-export const FILES_URL = process.env.FILES_URL || 'https://files.apkthink.com';
-
-/**
- * FS url
- */
-export const FS_URL = process.env.FS_URL || 'https://fs.apkthink.com';
+export const FILES_URL = process.env.FILES_URL || '';
 
 export const MONGODB_URI = process.env.MONGODB_URI;
