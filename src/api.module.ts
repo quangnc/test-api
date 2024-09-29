@@ -16,6 +16,7 @@ import { DocumentsModule } from './modules/documents/documents.module';
 import { CertificatesModule } from './modules/certificates/certificates.module';
 import { ServicesModule } from './modules/services/services.module';
 import { NewsModule } from './modules/news/news.module';
+import { PartnerModule } from './modules/partners/partners.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { NewsModule } from './modules/news/news.module';
     CertificatesModule,
     ServicesModule,
     NewsModule,
+    PartnerModule,
   ],
   // filters
   providers: [
