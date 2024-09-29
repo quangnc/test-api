@@ -3,9 +3,9 @@ import { IsNumberString, IsOptional } from 'class-validator';
 export class PaginationQuery {
   @IsOptional()
   @IsNumberString()
-  offset: string;
+  page: number;
 
   @IsOptional()
   @IsNumberString()
-  limit: string;
+  limit: number;
 }

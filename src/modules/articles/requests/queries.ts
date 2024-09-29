@@ -1,5 +1,10 @@
 import { PaginationQuery } from 'src/common/requests/queries';
-import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ListArticlesQuery extends PaginationQuery {
   @IsNotEmpty()

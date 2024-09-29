@@ -5,7 +5,9 @@ import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoriesService {
-  constructor(@InjectRepository(Category) public catRepo: Repository<Category>) {}
+  constructor(
+    @InjectRepository(Category) public catRepo: Repository<Category>,
+  ) {}
 
   findAllByType(type: string, locale = 'en') {
     return this.catRepo.find({

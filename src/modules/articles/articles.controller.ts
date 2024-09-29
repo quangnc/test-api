@@ -26,7 +26,7 @@ export class ArticlesController {
   ) {
     const { article } = await this.articleService.getDetail(
       +query.id || query.slug,
-      +query.offset || 0,
+      +query.page || 0,
       +query.limit || 10,
       language || 'en',
     );
@@ -62,7 +62,7 @@ export class ArticlesController {
     const results = await this.articleService.getList(
       list,
       type,
-      +query.offset || 0,
+      +query.page || 0,
       +query.limit || 10,
       language,
     );

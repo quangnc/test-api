@@ -1,5 +1,5 @@
-import {AutoIdEntity} from 'src/common/base-entity'
-import { Column, Entity, Index, JoinColumn, ManyToOne, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
+import { AutoIdEntity } from 'src/common/base-entity';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { Category } from './category.entity';
 
 @Entity('category_locales')

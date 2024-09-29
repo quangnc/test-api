@@ -12,6 +12,10 @@ import filters from 'src/common/filters';
 import { ArticlesModule } from 'modules/articles/articles.module';
 import { SlidersModule } from 'modules/sliders/sliders.module';
 import { TypeOrmConfig } from './configs/typeorm.config';
+import { DocumentsModule } from './modules/documents/documents.module';
+import { CertificatesModule } from './modules/certificates/certificates.module';
+import { ServicesModule } from './modules/services/services.module';
+import { NewsModule } from './modules/news/news.module';
 
 @Module({
   imports: [
@@ -25,6 +29,10 @@ import { TypeOrmConfig } from './configs/typeorm.config';
     CategoriesModule,
     ArticlesModule,
     SlidersModule,
+    DocumentsModule,
+    CertificatesModule,
+    ServicesModule,
+    NewsModule,
   ],
   // filters
   providers: [
