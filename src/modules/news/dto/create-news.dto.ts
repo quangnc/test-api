@@ -1,7 +1,6 @@
 import {
   IsNotEmpty,
   IsOptional,
-  IsBoolean,
   IsArray,
   ValidateNested,
 } from 'class-validator';
@@ -19,13 +18,22 @@ class NewsLocaleDto {
 
   @IsOptional()
   description?: string;
+
+  @IsOptional()
+  keyword_description: string;
+
+  @IsOptional()
+  keywords: string;
+
+  @IsOptional()
+  keyword_title: string;
 }
 
 export class CreateNewsDto {
-  @IsNotEmpty()
+  @IsOptional()
   public url: string;
 
-  @IsBoolean()
+  @IsOptional()
   isActive: boolean;
 
   @IsArray()

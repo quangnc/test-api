@@ -1,13 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { AutoIdEntity } from 'src/common/base-entity';
 import { News } from './news.entity';
 
 @Entity('news_locales')
+@Index(['newsId', 'locale'], { unique: true })
 export class NewsLocales extends AutoIdEntity {
   @Column()
   public newsId: number;
 
-  @Column({ enum: ['en', 'vi'] }) // Extend with more languages as needed
+  @Column({ enum: ['en', 'vi'], unique: true }) // Extend with more languages as needed
   locale: string;
 
   @Column()

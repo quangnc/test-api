@@ -12,9 +12,6 @@ export class Partner extends TimeEntity {
   @Column('text', { nullable: true })
   public description: string;
 
-  @Column()
-  public url: string;
-
   @Column({ nullable: true })
   public image: string;
 

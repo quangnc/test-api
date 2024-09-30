@@ -10,8 +10,13 @@ import {
 import { ServiceCategoryService } from './service-category.service';
 import { CreateServiceCategoryDto } from './dto/create-service-category.dto';
 import { UpdateServiceCategoryDto } from './dto/update-service-category.dto';
+import { IsPublic } from 'src/common/decorators';
 
-@Controller('service-categories')
+@Controller({
+  path: 'service-categories',
+  version: '1',
+})
+@IsPublic()
 export class ServiceCategoryController {
   constructor(
     private readonly serviceCategoryService: ServiceCategoryService,

@@ -18,16 +18,16 @@ export class NewsService {
   // Create a news article with translations
   async create(createNewsDto: CreateNewsDto, file: Multer.File): Promise<News> {
     const { locales, ...newsData } = createNewsDto;
-
     // File handling (e.g., save file path to `url` field)
     if (file) {
       newsData.url = file.path; // You can adjust how to store the file
     }
-
     const news = this.newsRepository.create(newsData);
     news.locales = locales.map((locale) =>
       this.newsLocalesRepository.create(locale),
     );
+
+    console.log('news', news);
 
     return this.newsRepository.save(news);
   }
@@ -40,7 +40,7 @@ export class NewsService {
   // Find one news article with its translation by language
   async findOne(id: number, lang: string) {
     const news = await this.newsRepository.findOne({
-      where: { newsId: id },
+      where: { id },
       relations: ['locales'],
     });
 
@@ -66,7 +66,7 @@ export class NewsService {
     const { locales, ...newsData } = updateNewsDto;
 
     const news = await this.newsRepository.findOne({
-      where: { newsId: id },
+      where: { id },
       relations: ['locales'],
     });
     if (!news) {
@@ -79,10 +79,22 @@ export class NewsService {
 
     Object.assign(news, newsData);
 
-    if (locales) {
-      news.locales = locales.map((locale) =>
-        this.newsLocalesRepository.create(locale),
-      );
+    if (locales && locales.length > 0) {
+      // Duyệt qua từng `locale` trong DTO và xử lý cập nhật
+      for (const localeDto of locales) {
+        const existingLocale = news.locales.find(
+          (l) => l.locale === localeDto.locale,
+        );
+
+        if (existingLocale) {
+          // Nếu locale đã tồn tại, cập nhật thông tin
+          Object.assign(existingLocale, localeDto);
+        } else {
+          // Nếu locale chưa tồn tại, tạo mới
+          const newLocale = this.newsLocalesRepository.create(localeDto);
+          news.locales.push(newLocale);
+        }
+      }
     }
 
     return this.newsRepository.save(news);
@@ -90,7 +102,7 @@ export class NewsService {
 
   // Delete a news article
   async remove(id: number): Promise<void> {
-    const news = await this.newsRepository.findOne({ where: { newsId: id } });
+    const news = await this.newsRepository.findOne({ where: { id: id } });
     if (!news) {
       throw new NotFoundException(`News with ID ${id} not found`);
     }

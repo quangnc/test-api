@@ -16,8 +16,13 @@ import { extname } from 'path';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
+import { IsPublic } from 'src/common/decorators';
 
-@Controller('news')
+@Controller({
+  path: 'news',
+  version: '1',
+})
+@IsPublic()
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 

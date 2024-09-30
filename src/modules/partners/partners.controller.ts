@@ -16,8 +16,13 @@ import { CreatePartnerDto } from './dto/create-partner.dto';
 import { UpdatePartnerDto } from './dto/update-partner.dto';
 import { Multer } from 'multer';
 import { PartnerService } from './partners.service';
+import { IsPublic } from 'src/common/decorators';
 
-@Controller('partners')
+@Controller({
+  path: 'partners',
+  version: '1',
+})
+@IsPublic()
 export class PartnerController {
   constructor(private readonly partnerService: PartnerService) {}
 

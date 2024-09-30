@@ -17,8 +17,13 @@ import { UpdateServiceDto } from './dto/update-service.dto';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Multer } from 'multer';
+import { IsPublic } from 'src/common/decorators';
 
-@Controller('services')
+@Controller({
+  path: 'services',
+  version: '1',
+})
+@IsPublic()
 export class ServicesController {
   constructor(private readonly serviceService: ServiceService) {}
 
