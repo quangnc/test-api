@@ -20,6 +20,7 @@ import { IsPublic } from 'src/common/decorators';
 import { PaginationQuery } from 'src/common/requests/queries';
 import { ApiResponse } from 'src/common/api.response';
 import { UserLanguage } from 'src/common/decorators/user-language.decorator';
+import { News } from './entities/news.entity';
 
 @Controller({
   path: 'news',
@@ -54,27 +55,23 @@ export class NewsController {
 
   @Get()
   async findAll(
-    @UserLanguage() language: string,
+    @Query('language') language: string,
     @Query() query: PaginationQuery,
   ) {
     const { page = 1, limit = 10 } = query;
     const offset = (page - 1) * limit;
-    const [news, totalItems] = await this.newsService.findAll(
-      offset,
-      limit,
-      language,
-    );
+    const news = await this.newsService.findAll(offset, limit, language);
 
     return ApiResponse.success({
       page,
       pageSize: limit,
-      total: totalItems,
+      total: await News.count(),
       results: news,
     });
   }
 
   @Get(':id')
-  findOne(@UserLanguage() language: string, @Param('id') id: string) {
+  findOne(@Query('language') language: string, @Param('id') id: string) {
     return this.newsService.findOne(+id, language);
   }
 

@@ -14,6 +14,7 @@ import { UpdateCertificateDto } from './dto/update-certificate.dto';
 import { IsPublic } from 'src/common/decorators';
 import { PaginationQuery } from 'src/common/requests/queries';
 import { ApiResponse } from 'src/common/api.response';
+import { UserLanguage } from 'src/common/decorators/user-language.decorator';
 
 @Controller({
   path: 'certificates',
@@ -29,7 +30,10 @@ export class CertificatesController {
   }
 
   @Get('/')
-  async findAll(@Query() query: PaginationQuery) {
+  async findAll(
+    @UserLanguage() language: string,
+    @Query() query: PaginationQuery,
+  ) {
     const { page = 1, limit = 10 } = query;
     const offset = (page - 1) * limit;
     const [certificates, totalItems] = await this.certificatesService.findAll(
@@ -38,10 +42,9 @@ export class CertificatesController {
     );
 
     return ApiResponse.success({
-      certificates,
-      page,
-      limit,
-      totalItems,
+      pageSize: limit,
+      total: totalItems,
+      results: certificates,
     });
   }
 

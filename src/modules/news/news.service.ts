@@ -31,15 +31,14 @@ export class NewsService {
   }
 
   // Find all news articles with translations
-  async findAll(offset: number, limit: number, locale: string = 'vi') {
+  async findAll(offset: number, limit: number, locale: string) {
     const queryBuilder = this.newsRepository
       .createQueryBuilder('news')
       .leftJoinAndSelect('news.locales', 'newsLocales');
 
-    console.log('locale', locale);
-
     // Nếu có `locale` thì filter theo locale
     if (locale) {
+      console.log('locale', locale);
       queryBuilder.andWhere('newsLocales.locale = :locale', { locale });
     }
 

@@ -1,3 +1,4 @@
+import { Multer } from 'multer';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,11 +22,11 @@ export class DocumentsService {
 
   async create(
     createDocumentDto: CreateDocumentDto,
-    filename: string,
+    file: Multer.File,
   ): Promise<Documents> {
     const document = this.docRepo.create({
       ...createDocumentDto, // Lưu các trường name, description
-      url: filename, // Lưu tên file đã upload
+      url: file.path, // Lưu tên file đã upload
     });
 
     return this.docRepo.save(document);
@@ -50,25 +51,25 @@ export class DocumentsService {
   }
 
   async update(
-    id: string,
+    id: number,
     updateDocumentDto: CreateDocumentDto,
+    file: Multer.File,
   ): Promise<Documents> {
     const document = await this.docRepo.findOneOrFail({
-      where: { id: Number(id) },
+      where: { id },
     });
+
+    const newsData = { ...updateDocumentDto };
 
     if (!document) {
       throw new NotFoundException('Document not found');
     }
 
-    // Cập nhật thông tin nếu có trong DTO
-    if (updateDocumentDto.name) {
-      document.title = updateDocumentDto.name;
+    if (file) {
+      newsData.url = file.path; // Handle the file if uploaded
     }
 
-    if (updateDocumentDto.description) {
-      document.description = updateDocumentDto.description;
-    }
+    Object.assign(document, newsData);
 
     return this.docRepo.save(document);
   }

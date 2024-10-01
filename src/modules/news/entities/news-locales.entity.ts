@@ -8,7 +8,7 @@ export class NewsLocales extends AutoIdEntity {
   @Column()
   public newsId: number;
 
-  @Column({ enum: ['en', 'vi'], unique: true }) // Extend with more languages as needed
+  @Column({ enum: ['en', 'vi'] }) // Extend with more languages as needed
   locale: string;
 
   @Column()

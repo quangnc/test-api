@@ -1,11 +1,14 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateDocumentDto {
   @IsString()
-  @IsNotEmpty()
-  name: string;
+  @IsOptional()
+  title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   description: string;
+
+  @IsOptional()
+  public url: string;
 }

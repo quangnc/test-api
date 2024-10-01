@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -17,7 +17,7 @@ import { DocumentsService } from './documents.service';
 import { DocumentMapper } from 'src/mappers/document.mapper';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { diskStorage, Multer } from 'multer';
 import { extname } from 'path';
 import { CreateDocumentDto } from './requests/queries';
 
@@ -52,7 +52,7 @@ export class DocumentsController {
     });
   }
 
-  @Post('create')
+  @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -68,7 +68,7 @@ export class DocumentsController {
     }),
   )
   async create(
-    @UploadedFile() file,
+    @UploadedFile() file: Multer.File,
     @Body() createDocumentDto: CreateDocumentDto,
   ): Promise<any> {
     if (!file) {
@@ -77,7 +77,7 @@ export class DocumentsController {
         message: 'Create docs need to provide the file',
       });
     }
-    const doc = await this.docService.create(createDocumentDto, file.filename);
+    const doc = await this.docService.create(createDocumentDto, file);
     return ApiResponse.success({
       doc: DocumentMapper.mapOne(doc),
     });
@@ -95,12 +95,13 @@ export class DocumentsController {
     });
   }
 
-  @Put(':id')
+  @Patch(':id')
   async reaction(
     @Param('id') id,
     @Body() updateDocumentDto: CreateDocumentDto,
+    @UploadedFile() file: Multer.File,
   ) {
-    const doc = await this.docService.update(id, updateDocumentDto);
+    const doc = await this.docService.update(+id, updateDocumentDto, file);
     return ApiResponse.success({
       doc: DocumentMapper.mapOne(doc),
     });
