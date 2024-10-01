@@ -27,14 +27,25 @@ export class NewsService {
       this.newsLocalesRepository.create(locale),
     );
 
-    console.log('news', news);
-
     return this.newsRepository.save(news);
   }
 
   // Find all news articles with translations
-  async findAll(): Promise<News[]> {
-    return this.newsRepository.find({ relations: ['locales'] });
+  async findAll(offset: number, limit: number, locale: string = 'vi') {
+    const queryBuilder = this.newsRepository
+      .createQueryBuilder('news')
+      .leftJoinAndSelect('news.locales', 'newsLocales');
+
+    console.log('locale', locale);
+
+    // Nếu có `locale` thì filter theo locale
+    if (locale) {
+      queryBuilder.andWhere('newsLocales.locale = :locale', { locale });
+    }
+
+    queryBuilder.take(limit).skip(offset);
+
+    return queryBuilder.getMany();
   }
 
   // Find one news article with its translation by language

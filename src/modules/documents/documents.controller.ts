@@ -37,10 +37,10 @@ export class DocumentsController {
     const [docs, totalItems] = await this.docService.findAll(offset, limit);
 
     return ApiResponse.success({
-      docs: DocumentMapper.mapList(docs),
       page,
-      limit,
-      totalItems,
+      pageSize: limit,
+      total: totalItems,
+      results: DocumentMapper.mapList(docs),
     });
   }
 
