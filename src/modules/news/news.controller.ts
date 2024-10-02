@@ -19,7 +19,6 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 import { IsPublic } from 'src/common/decorators';
 import { PaginationQuery } from 'src/common/requests/queries';
 import { ApiResponse } from 'src/common/api.response';
-import { UserLanguage } from 'src/common/decorators/user-language.decorator';
 import { News } from './entities/news.entity';
 
 @Controller({
@@ -56,11 +55,17 @@ export class NewsController {
   @Get()
   async findAll(
     @Query('language') language: string,
+    @Query('keyword') keyword: string,
     @Query() query: PaginationQuery,
   ) {
     const { page = 1, limit = 10 } = query;
     const offset = (page - 1) * limit;
-    const news = await this.newsService.findAll(offset, limit, language);
+    const news = await this.newsService.findAll(
+      offset,
+      limit,
+      language,
+      keyword,
+    );
 
     return ApiResponse.success({
       page,

@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   OneToMany,
@@ -7,15 +6,19 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { NewsLocales } from './news-locales.entity';
+import { TimeEntity } from 'src/common/base-entity';
 
 @Entity('news')
-export class News extends BaseEntity {
+export class News extends TimeEntity {
   @PrimaryGeneratedColumn()
   @PrimaryColumn()
   public id: number;
 
   @Column()
   public url: string;
+
+  @Column({ nullable: true, default: 0 })
+  public count: number;
 
   @Column({ default: true })
   isActive: boolean;

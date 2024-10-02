@@ -31,7 +31,12 @@ export class NewsService {
   }
 
   // Find all news articles with translations
-  async findAll(offset: number, limit: number, locale: string) {
+  async findAll(
+    offset: number,
+    limit: number,
+    locale: string,
+    search?: string,
+  ) {
     const queryBuilder = this.newsRepository
       .createQueryBuilder('news')
       .leftJoinAndSelect('news.locales', 'newsLocales');
@@ -42,13 +47,18 @@ export class NewsService {
       queryBuilder.andWhere('newsLocales.locale = :locale', { locale });
     }
 
-    queryBuilder.take(limit).skip(offset);
+    if (search) {
+      queryBuilder.andWhere('newsLocales.title ILIKE :search', {
+        search: `%${search}%`,
+      });
+    }
+    queryBuilder.orderBy('news.createdAt', 'DESC').take(limit).skip(offset);
 
     return queryBuilder.getMany();
   }
 
   // Find one news article with its translation by language
-  async findOne(id: number, lang: string) {
+  async findOne(id: number, lang: string = 'vi') {
     const news = await this.newsRepository.findOne({
       where: { id },
       relations: ['locales'],
@@ -63,6 +73,9 @@ export class NewsService {
     if (!translation) {
       throw new NotFoundException(`Translation for language ${lang} not found`);
     }
+
+    news.count += 1;
+    await this.newsRepository.save(news);
 
     return { ...news, ...translation };
   }

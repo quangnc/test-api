@@ -34,6 +34,9 @@ export class CreateNewsDto {
   public url: string;
 
   @IsOptional()
+  public count: number;
+
+  @IsOptional()
   isActive: boolean;
 
   @IsArray()
