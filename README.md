@@ -90,3 +90,6 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 1: News
 2: About-us
 3: Information - notice
+4: Quality policy
+5: Legal basis
+6: Organizational structure

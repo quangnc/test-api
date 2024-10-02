@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { diskStorage, Multer } from 'multer';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiResponse } from 'src/common/api.response';
 import { IsPublic } from 'src/common/decorators';
 import { UserLanguage } from 'src/common/decorators/user-language.decorator';
@@ -8,7 +17,12 @@ import { enumValues } from 'src/utils/array';
 
 import { CommonService } from 'modules/common/common.service';
 import { PageType } from 'modules/common/entities/page.entity';
-import { CreateContactBody } from 'modules/common/requests/bodies';
+import {
+  CreateContactBody,
+  CreateSliderBody,
+} from 'modules/common/requests/bodies';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
 
 @Controller({
   path: '/',
@@ -26,6 +40,31 @@ export class CommonController {
     const sliders = await this.slidersService.findAll(language);
     return ApiResponse.success({
       sliders: SliderMapper.mapList(sliders),
+    });
+  }
+
+  @Post('/sliders')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/news',
+        filename: (req, file, callback) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          callback(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async createSliders(
+    @Body() body: CreateSliderBody,
+    @UploadedFile() file: Multer.File,
+  ) {
+    const sliders = await this.slidersService.createSliders(body, file);
+    return ApiResponse.success({
+      sliders,
     });
   }
 
