@@ -56,6 +56,7 @@ export class NewsController {
   async findAll(
     @Query('language') language: string,
     @Query('keyword') keyword: string,
+    @Query('type') type: string,
     @Query() query: PaginationQuery,
   ) {
     const { page = 1, limit = 10 } = query;
@@ -64,6 +65,7 @@ export class NewsController {
       offset,
       limit,
       language,
+      +type,
       keyword,
     );
 

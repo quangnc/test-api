@@ -35,6 +35,7 @@ export class NewsService {
     offset: number,
     limit: number,
     locale: string,
+    type?: number,
     search?: string,
   ) {
     const queryBuilder = this.newsRepository
@@ -43,7 +44,6 @@ export class NewsService {
 
     // Nếu có `locale` thì filter theo locale
     if (locale) {
-      console.log('locale', locale);
       queryBuilder.andWhere('newsLocales.locale = :locale', { locale });
     }
 
@@ -52,6 +52,11 @@ export class NewsService {
         search: `%${search}%`,
       });
     }
+
+    if (type) {
+      queryBuilder.andWhere('news.type = :type', { type });
+    }
+
     queryBuilder.orderBy('news.createdAt', 'DESC').take(limit).skip(offset);
 
     return queryBuilder.getMany();

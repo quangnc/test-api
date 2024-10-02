@@ -37,6 +37,9 @@ export class CreateNewsDto {
   public count: number;
 
   @IsOptional()
+  public type: number;
+
+  @IsOptional()
   isActive: boolean;
 
   @IsArray()

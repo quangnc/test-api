@@ -20,6 +20,9 @@ export class News extends TimeEntity {
   @Column({ nullable: true, default: 0 })
   public count: number;
 
+  @Column({ nullable: true, default: 1 })
+  public type: number;
+
   @Column({ default: true })
   isActive: boolean;
 
