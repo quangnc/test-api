@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreatePartnerDto {
   @IsNotEmpty()
@@ -11,8 +11,9 @@ export class CreatePartnerDto {
   public description?: string;
 
   @IsOptional()
-  public image?: string;
+  public url?: string;
 
+  @IsBoolean()
   @IsOptional()
-  public isActive: number;
+  public isActive?: boolean;
 }

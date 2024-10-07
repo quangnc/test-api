@@ -6,15 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 import { CreatePartnerDto } from './dto/create-partner.dto';
 import { UpdatePartnerDto } from './dto/update-partner.dto';
-import { Multer } from 'multer';
 import { PartnerService } from './partners.service';
 import { IsPublic } from 'src/common/decorators';
 
@@ -28,25 +22,8 @@ export class PartnerController {
 
   // File upload configuration
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/partners',
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          callback(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  create(
-    @Body() createPartnerDto: CreatePartnerDto,
-    @UploadedFile() file: Multer.File,
-  ) {
-    return this.partnerService.create(createPartnerDto, file);
+  create(@Body() createPartnerDto: CreatePartnerDto) {
+    return this.partnerService.create(createPartnerDto);
   }
 
   @Get()
@@ -60,26 +37,8 @@ export class PartnerController {
   }
 
   @Patch(':id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/partners',
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          callback(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  update(
-    @Param('id') id: string,
-    @Body() updatePartnerDto: UpdatePartnerDto,
-    @UploadedFile() file: Multer.File,
-  ) {
-    return this.partnerService.update(+id, updatePartnerDto, file);
+  update(@Param('id') id: string, @Body() updatePartnerDto: UpdatePartnerDto) {
+    return this.partnerService.update(+id, updatePartnerDto);
   }
 
   @Delete(':id')

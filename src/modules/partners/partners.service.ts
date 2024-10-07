@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Partner } from './entities/partner.entity';
 import { CreatePartnerDto } from './dto/create-partner.dto';
 import { UpdatePartnerDto } from './dto/update-partner.dto';
-import { Multer } from 'multer';
 
 @Injectable()
 export class PartnerService {
@@ -13,12 +12,8 @@ export class PartnerService {
     private readonly partnerRepository: Repository<Partner>,
   ) {}
 
-  async create(createPartnerDto: CreatePartnerDto, file: Multer.File) {
+  async create(createPartnerDto: CreatePartnerDto) {
     const partnerData = { ...createPartnerDto };
-
-    if (file) {
-      partnerData.image = file.path; // Handle the file upload
-    }
 
     const partner = this.partnerRepository.create(partnerData);
     return this.partnerRepository.save(partner);
@@ -39,15 +34,10 @@ export class PartnerService {
   async update(
     id: number,
     updatePartnerDto: UpdatePartnerDto,
-    file: Multer.File,
   ): Promise<Partner> {
     const partner = await this.partnerRepository.findOne({ where: { id } });
     if (!partner) {
       throw new NotFoundException(`Partner with ID ${id} not found`);
-    }
-
-    if (file) {
-      updatePartnerDto.image = file.path; // Update the image if new file is uploaded
     }
 
     Object.assign(partner, updatePartnerDto);

@@ -5,7 +5,6 @@ import { News } from './entities/news.entity';
 import { NewsLocales } from './entities/news-locales.entity';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
-import { Multer } from 'multer';
 
 @Injectable()
 export class NewsService {
@@ -16,12 +15,9 @@ export class NewsService {
   ) {}
 
   // Create a news article with translations
-  async create(createNewsDto: CreateNewsDto, file: Multer.File): Promise<News> {
+  async create(createNewsDto: CreateNewsDto): Promise<News> {
     const { locales, ...newsData } = createNewsDto;
     // File handling (e.g., save file path to `url` field)
-    if (file) {
-      newsData.url = file.path; // You can adjust how to store the file
-    }
     const news = this.newsRepository.create(newsData);
     news.locales = locales.map((locale) =>
       this.newsLocalesRepository.create(locale),
@@ -86,11 +82,7 @@ export class NewsService {
   }
 
   // Update a news article with translations and file upload
-  async update(
-    id: number,
-    updateNewsDto: UpdateNewsDto,
-    file: Multer.File,
-  ): Promise<News> {
+  async update(id: number, updateNewsDto: UpdateNewsDto): Promise<News> {
     const { locales, ...newsData } = updateNewsDto;
 
     const news = await this.newsRepository.findOne({
@@ -99,10 +91,6 @@ export class NewsService {
     });
     if (!news) {
       throw new NotFoundException(`News with ID ${id} not found`);
-    }
-
-    if (file) {
-      newsData.url = file.path; // Handle the file if uploaded
     }
 
     Object.assign(news, newsData);

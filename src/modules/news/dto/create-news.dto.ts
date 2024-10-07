@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -39,8 +40,9 @@ export class CreateNewsDto {
   @IsOptional()
   public type: number;
 
+  @IsBoolean()
   @IsOptional()
-  isActive: number;
+  public isActive?: boolean;
 
   @IsArray()
   @ValidateNested({ each: true })

@@ -93,3 +93,18 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 4: Quality policy
 5: Legal basis
 6: Organizational structure
+
+// Upload
+#news
+
+````text
+POST: http://localhost:2087/files/news
+
+#partner
+```text
+Post: http://localhost:2087/files/partners
+
+#docs
+```text
+Post: http://localhost:2087/files/docs
+````

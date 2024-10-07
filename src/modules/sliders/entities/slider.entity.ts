@@ -18,6 +18,6 @@ export class Slider extends AutoIdEntity {
   @Column({ default: 1 })
   priority: number;
 
-  @Column({ default: 1 })
-  isActive: number;
+  @Column({ default: true })
+  isActive: boolean;
 }

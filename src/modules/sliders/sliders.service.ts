@@ -1,4 +1,3 @@
-import { Multer } from 'multer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -17,10 +16,9 @@ export class SlidersService {
     return sliders;
   }
 
-  async createSliders(createNewsDto: CreateSliderBody, file: Multer.File) {
+  async createSliders(createNewsDto: CreateSliderBody) {
     const document = this.sliderRepo.create({
       ...createNewsDto, // Lưu các trường name, description
-      url: file.path, // Lưu tên file đã upload
     });
 
     return this.sliderRepo.save(document);

@@ -11,8 +11,8 @@ export class Service extends TimeEntity {
   @Column()
   public url: string;
 
-  @Column({ default: 1 })
-  isActive: number;
+  @Column({ default: true })
+  isActive: boolean;
 
   @Column()
   public categoryId: number;

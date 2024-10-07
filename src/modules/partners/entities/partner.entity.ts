@@ -13,8 +13,8 @@ export class Partner extends TimeEntity {
   public description: string;
 
   @Column({ nullable: true })
-  public image: string;
+  public url: string;
 
-  @Column({ default: 1 })
-  public isActive: number;
+  @Column({ default: true })
+  public isActive: boolean;
 }

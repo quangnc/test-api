@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -36,8 +37,9 @@ export class CreateServiceDto {
   @IsNotEmpty()
   url: string;
 
+  @IsBoolean()
   @IsOptional()
-  isActive: number;
+  public isActive?: boolean;
 
   @IsArray()
   @ValidateNested({ each: true })

@@ -6,13 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  UploadedFile,
-  UseInterceptors,
   Query,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage, Multer } from 'multer';
-import { extname } from 'path';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
@@ -31,25 +26,8 @@ export class NewsController {
 
   // File upload configuration
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/news',
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          callback(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  create(
-    @Body() createNewsDto: CreateNewsDto,
-    @UploadedFile() file: Multer.File,
-  ) {
-    return this.newsService.create(createNewsDto, file);
+  create(@Body() createNewsDto: CreateNewsDto) {
+    return this.newsService.create(createNewsDto);
   }
 
   @Get()
@@ -83,26 +61,8 @@ export class NewsController {
   }
 
   @Patch(':id')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/news',
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          callback(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  update(
-    @Param('id') id: string,
-    @Body() updateNewsDto: UpdateNewsDto,
-    @UploadedFile() file: Multer.File,
-  ) {
-    return this.newsService.update(+id, updateNewsDto, file);
+  update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
+    return this.newsService.update(+id, updateNewsDto);
   }
 
   @Delete(':id')

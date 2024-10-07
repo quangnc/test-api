@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateServiceCategoryDto {
   @IsString()
@@ -9,6 +9,7 @@ export class CreateServiceCategoryDto {
   @IsNotEmpty()
   public name_en: string;
 
-  @IsNumber()
-  public isActive: number;
+  @IsBoolean()
+  @IsOptional()
+  public isActive?: boolean;
 }
