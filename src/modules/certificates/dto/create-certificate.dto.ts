@@ -31,5 +31,5 @@ export class CreateCertificateDto {
 
   @IsBoolean()
   @IsOptional()
-  public isActive?: boolean;
+  public isActive?: number;
 }

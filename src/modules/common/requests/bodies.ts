@@ -33,6 +33,6 @@ export class CreateSliderBody {
   @Column({ default: 1 })
   priority: number;
 
-  @Column({ default: true })
+  @Column({ default: 1 })
   isActive: number;
 }

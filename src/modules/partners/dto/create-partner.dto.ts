@@ -14,5 +14,5 @@ export class CreatePartnerDto {
   public image?: string;
 
   @IsOptional()
-  public isActive: boolean;
+  public isActive: number;
 }

@@ -15,6 +15,6 @@ export class Partner extends TimeEntity {
   @Column({ nullable: true })
   public image: string;
 
-  @Column({ default: true })
-  public isActive: boolean;
+  @Column({ default: 1 })
+  public isActive: number;
 }

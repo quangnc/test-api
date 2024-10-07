@@ -23,8 +23,8 @@ export class News extends TimeEntity {
   @Column({ nullable: true, default: 1 })
   public type: number;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ default: 1 })
+  isActive: number;
 
   @OneToMany(() => NewsLocales, (nl) => nl.news, {
     cascade: true,

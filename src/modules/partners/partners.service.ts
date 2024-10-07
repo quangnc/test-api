@@ -13,10 +13,7 @@ export class PartnerService {
     private readonly partnerRepository: Repository<Partner>,
   ) {}
 
-  async create(
-    createPartnerDto: CreatePartnerDto,
-    file: Multer.File,
-  ): Promise<Partner> {
+  async create(createPartnerDto: CreatePartnerDto, file: Multer.File) {
     const partnerData = { ...createPartnerDto };
 
     if (file) {

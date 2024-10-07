@@ -40,7 +40,7 @@ export class CreateNewsDto {
   public type: number;
 
   @IsOptional()
-  isActive: boolean;
+  isActive: number;
 
   @IsArray()
   @ValidateNested({ each: true })
