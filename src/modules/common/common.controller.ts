@@ -28,7 +28,7 @@ export class CommonController {
   async getSliders(@UserLanguage() language) {
     const sliders = await this.slidersService.findAll(language);
     return ApiResponse.success({
-      sliders: SliderMapper.mapList(sliders),
+      sliders,
     });
   }
 
