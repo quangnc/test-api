@@ -23,6 +23,9 @@ export class CreateSliderBody {
   @IsOptional()
   public url: string;
 
+  @IsOptional()
+  public image: string;
+
   @IsNotEmpty()
   title: string;
 
