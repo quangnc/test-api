@@ -25,5 +25,5 @@ export class Certificate extends TimeEntity {
   public description: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
 }

@@ -37,5 +37,5 @@ export class CreateSliderBody {
   priority: number;
 
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
 }

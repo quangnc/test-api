@@ -60,6 +60,11 @@ export class NewsController {
     return this.newsService.findOne(+id, language);
   }
 
+  @Get(':slug')
+  async getNewsBySlug(@Param('slug') slug: string): Promise<News> {
+    return this.newsService.findBySlug(slug);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
     return this.newsService.update(+id, updateNewsDto);

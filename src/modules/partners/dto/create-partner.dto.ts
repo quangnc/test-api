@@ -15,5 +15,5 @@ export class CreatePartnerDto {
 
   @IsBoolean()
   @IsOptional()
-  public isActive?: boolean;
+  public is_active?: boolean;
 }

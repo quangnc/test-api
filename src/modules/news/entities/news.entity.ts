@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { NewsLocales } from './news-locales.entity';
 import { TimeEntity } from 'src/common/base-entity';
@@ -24,7 +26,18 @@ export class News extends TimeEntity {
   public type: number;
 
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
+
+  @Column({ unique: true })
+  slug: string;
+
+  // Cột createdAt với kiểu Date
+  @Column()
+  created_at: Date;
+
+  // Cột updatedAt (tương tự)
+  @Column()
+  updated_at: Date;
 
   @OneToMany(() => NewsLocales, (nl) => nl.news, {
     cascade: true,

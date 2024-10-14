@@ -20,13 +20,9 @@ export class DocumentsService {
     return documents;
   }
 
-  async create(
-    createDocumentDto: CreateDocumentDto,
-    file: Multer.File,
-  ): Promise<Documents> {
+  async create(createDocumentDto: CreateDocumentDto): Promise<Documents> {
     const document = this.docRepo.create({
       ...createDocumentDto, // Lưu các trường name, description
-      url: file.path, // Lưu tên file đã upload
     });
 
     return this.docRepo.save(document);
@@ -53,7 +49,6 @@ export class DocumentsService {
   async update(
     id: number,
     updateDocumentDto: CreateDocumentDto,
-    file: Multer.File,
   ): Promise<Documents> {
     const document = await this.docRepo.findOneOrFail({
       where: { id },
@@ -63,10 +58,6 @@ export class DocumentsService {
 
     if (!document) {
       throw new NotFoundException('Document not found');
-    }
-
-    if (file) {
-      newsData.url = file.path; // Handle the file if uploaded
     }
 
     Object.assign(document, newsData);

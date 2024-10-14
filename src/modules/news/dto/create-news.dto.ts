@@ -40,9 +40,17 @@ export class CreateNewsDto {
   @IsOptional()
   public type: number;
 
+  // Cột createdAt với kiểu Date
+  @IsOptional()
+  created_at: Date;
+
+  // Cột updatedAt (tương tự)
+  @IsOptional()
+  updated_at: Date;
+
   @IsBoolean()
   @IsOptional()
-  public isActive?: boolean;
+  public is_active?: boolean;
 
   @IsArray()
   @ValidateNested({ each: true })

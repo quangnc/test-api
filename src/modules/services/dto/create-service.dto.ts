@@ -39,7 +39,7 @@ export class CreateServiceDto {
 
   @IsBoolean()
   @IsOptional()
-  public isActive?: boolean;
+  public is_active?: boolean;
 
   @IsArray()
   @ValidateNested({ each: true })

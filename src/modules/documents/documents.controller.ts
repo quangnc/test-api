@@ -52,32 +52,17 @@ export class DocumentsController {
     });
   }
 
+  @Get(':slug')
+  async getDetailBý(@Param('id') id: string) {
+    const doc = await this.docService.getDetail(id);
+    return ApiResponse.success({
+      article: DocumentMapper.mapOne(doc),
+    });
+  }
+
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/docs', // Nơi lưu file
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname); // Lấy phần mở rộng file
-          const filename = `${uniqueSuffix}${ext}`;
-          callback(null, filename);
-        },
-      }),
-    }),
-  )
-  async create(
-    @UploadedFile() file: Multer.File,
-    @Body() createDocumentDto: CreateDocumentDto,
-  ): Promise<any> {
-    if (!file) {
-      return ApiResponse.badRequest({
-        error: 'badRequest',
-        message: 'Create docs need to provide the file',
-      });
-    }
-    const doc = await this.docService.create(createDocumentDto, file);
+  async create(@Body() createDocumentDto: CreateDocumentDto): Promise<any> {
+    const doc = await this.docService.create(createDocumentDto);
     return ApiResponse.success({
       doc: DocumentMapper.mapOne(doc),
     });
@@ -99,9 +84,8 @@ export class DocumentsController {
   async reaction(
     @Param('id') id,
     @Body() updateDocumentDto: CreateDocumentDto,
-    @UploadedFile() file: Multer.File,
   ) {
-    const doc = await this.docService.update(+id, updateDocumentDto, file);
+    const doc = await this.docService.update(+id, updateDocumentDto);
     return ApiResponse.success({
       doc: DocumentMapper.mapOne(doc),
     });

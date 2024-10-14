@@ -5,6 +5,7 @@ import { News } from './entities/news.entity';
 import { NewsLocales } from './entities/news-locales.entity';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
+import { slugify } from 'src/utils';
 
 @Injectable()
 export class NewsService {
@@ -17,13 +18,14 @@ export class NewsService {
   // Create a news article with translations
   async create(createNewsDto: CreateNewsDto): Promise<News> {
     const { locales, ...newsData } = createNewsDto;
+    const slug = slugify(locales['en'].title);
     // File handling (e.g., save file path to `url` field)
     const news = this.newsRepository.create(newsData);
     news.locales = locales.map((locale) =>
       this.newsLocalesRepository.create(locale),
     );
 
-    return this.newsRepository.save(news);
+    return this.newsRepository.save({ ...news, slug });
   }
 
   // Find all news articles with translations
@@ -81,6 +83,18 @@ export class NewsService {
     return { ...news, ...translation };
   }
 
+  async findBySlug(slug: string): Promise<News> {
+    const news = await this.newsRepository.findOne({ where: { slug } });
+    if (!news) {
+      throw new NotFoundException(`News with slug '${slug}' not found`);
+    }
+
+    news.count += 1;
+    await this.newsRepository.save(news);
+
+    return news;
+  }
+
   // Update a news article with translations and file upload
   async update(id: number, updateNewsDto: UpdateNewsDto): Promise<News> {
     const { locales, ...newsData } = updateNewsDto;
@@ -94,7 +108,7 @@ export class NewsService {
     }
 
     Object.assign(news, newsData);
-
+    let oldSlug = news.slug;
     if (locales && locales.length > 0) {
       // Duyệt qua từng `locale` trong DTO và xử lý cập nhật
       for (const localeDto of locales) {
@@ -107,13 +121,14 @@ export class NewsService {
           Object.assign(existingLocale, localeDto);
         } else {
           // Nếu locale chưa tồn tại, tạo mới
-          const newLocale = this.newsLocalesRepository.create(localeDto);
+          const newLocale = this.newsLocalesRepository.create({ ...localeDto });
           news.locales.push(newLocale);
+          oldSlug = slugify(locales['en'].title);
         }
       }
     }
 
-    return this.newsRepository.save(news);
+    return this.newsRepository.save({ ...news, slug: oldSlug });
   }
 
   // Delete a news article
@@ -122,6 +137,7 @@ export class NewsService {
     if (!news) {
       throw new NotFoundException(`News with ID ${id} not found`);
     }
-    await this.newsRepository.remove(news);
+    await this.newsLocalesRepository.delete({ newsId: id });
+    await this.newsRepository.delete(id);
   }
 }

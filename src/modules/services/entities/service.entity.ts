@@ -12,7 +12,7 @@ export class Service extends TimeEntity {
   public url: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
 
   @Column()
   public categoryId: number;

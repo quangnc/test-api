@@ -11,5 +11,5 @@ export class CreateServiceCategoryDto {
 
   @IsBoolean()
   @IsOptional()
-  public isActive?: boolean;
+  public is_active?: boolean;
 }

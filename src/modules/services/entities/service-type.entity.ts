@@ -11,7 +11,7 @@ export class ServiceCategory extends TimeEntity {
   public name_en: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
 
   @OneToMany(() => Service, (a) => a.category)
   public services: Service[];

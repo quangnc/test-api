@@ -16,5 +16,5 @@ export class Partner extends TimeEntity {
   public url: string;
 
   @Column({ default: true })
-  public isActive: boolean;
+  public is_active: boolean;
 }
